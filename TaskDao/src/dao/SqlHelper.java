@@ -4,11 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
-
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.sql.DataSource;
 
 public class SqlHelper {
 
@@ -84,6 +81,46 @@ public class SqlHelper {
 			ex.printStackTrace();
 			return null;
 		}
+	}
+
+	public boolean excuteUpdate( String strSql, List<Object> para) {
+		boolean rs = false;
+		PreparedStatement pstmt = null;
+		Connection conn = getConn();
+		try {
+			pstmt = conn.prepareStatement(strSql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			if (para != null) {
+				int index = 1;
+				for (Object item : para) {
+					String type = item.getClass().getName();
+					if (type.equals("java.lang.String")) {
+						pstmt.setString(index, item.toString());
+					} else if (type.equals("java.util.Date")) {
+						java.util.Date utilDate = (java.util.Date) item;
+						java.sql.Timestamp sqlDate = new java.sql.Timestamp(utilDate.getTime());
+						pstmt.setTimestamp(index, sqlDate);
+					} else if (type.equals("int")) {
+						pstmt.setInt(index, Integer.parseInt(item.toString()));
+					}
+					index++;
+				}
+			}
+			int updateInt = pstmt.executeUpdate();
+			if (updateInt > 0) {
+				rs = true;
+			}
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			rs = false;
+		}
+		return rs;
 	}
 
 	public static Connection getConn() {

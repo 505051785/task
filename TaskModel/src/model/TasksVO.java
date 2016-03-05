@@ -1,27 +1,26 @@
 package model;
 
+import java.util.List;
+
 public class TasksVO {
+
+	private List<TaskVO> taskList;
 	
-	private Task task;
-	
-	/**
-	 * 执行者
-	 */
-	private User user; 
+	private String pageFooter;
 
-	public User getUser() {
-		return user;
+	public List<TaskVO> getTaskList() {
+		return taskList;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setTaskList(List<TaskVO> taskList) {
+		this.taskList = taskList;
 	}
 
-	public Task getTask() {
-		return task;
+	public String getPageFooter() {
+		return pageFooter;
 	}
 
-	public void setTask(Task task) {
-		this.task = task;
+	public void setPageFooter(String pageFooter) {
+		this.pageFooter = pageFooter;
 	}
 }

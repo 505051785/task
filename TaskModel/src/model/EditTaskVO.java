@@ -2,13 +2,15 @@ package model;
 
 import java.util.List;
 
-public class AddTaskVO {
+public class EditTaskVO {
 	
 	private Task task;
 
 	private List<User> users;
 	
 	private List<TaskType> typelist;
+	
+	private List<TaskStatus> taskStatusList;
 
 	public List<User> getUsers() {
 		return users;
@@ -32,6 +34,14 @@ public class AddTaskVO {
 
 	public void setTypelist(List<TaskType> typelist) {
 		this.typelist = typelist;
+	}
+
+	public List<TaskStatus> getTaskStatusList() {
+		return taskStatusList;
+	}
+
+	public void setTaskStatusList(List<TaskStatus> taskStatusList) {
+		this.taskStatusList = taskStatusList;
 	}
 	
 }

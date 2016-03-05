@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@page import="model.AddTaskVO"%>
+<%@page import="model.EditTaskVO"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -11,14 +11,15 @@
 <link rel="stylesheet" href="script/css/jquery-ui.css" type="text/css">
 <script src="script/js/jquery.js"></script>
 <script src="script/js/jquery-ui.min.js"></script>
-<% AddTaskVO addTaskVO=(AddTaskVO)request.getAttribute("addTaskVO");%>
+<%
+EditTaskVO editTaskVO = (EditTaskVO) request.getAttribute("editTaskVO");
+%>
 </head>
 <body>
 	<div id="container">
 		<br>
-		<div class="label">新增任务</div>
-		<br>
-		<br>
+		<div class="label">Task</div>
+		<br> <br>
 		<div id="twitter-outer">
 			<div id="twitter-logo">
 				<img src="images/task_logo_header.png" alt="Task" height="36"
@@ -27,54 +28,64 @@
 			</div>
 
 			<div id="twitter">
-				<form action="addtask" method="post">
+				<form action="modifytask" method="post">
 					<div id='title' class='outerDiv'>
-						<label for="title">任务标题:</label> <input type="text" name="title"
-							required />
-						<div class='message' id='titleDiv'>required.</div>
-
+						<label for="title">任务标题:</label> <input type="text" name="title" value="<%=editTaskVO.getTask().getTitle() %>" />
+						<input type="hidden" name="id" value="<%=editTaskVO.getTask().getId()%>" />
 					</div>
 					<div class='clearfix'></div>
 					<div id='description' class='outerDiv'>
 						<label for="description">任务描述:</label>
 						<!-- <input type="text" name="description" required  />  -->
-						<textarea name="description" rows="3" cols="20"></textarea>
-						<div class='message' id='descriptionDiv'>required.</div>
+						<textarea name="description" rows="3" cols="20"> <%=editTaskVO.getTask().getDescription() %></textarea>
 					</div>
 					<div class='clearfix'></div>
 
 					<div id='executor' class='outerDiv'>
 						<label for="executor">执行人员:</label>
 						<!-- 	<input type="text" name="executor" required />  -->
-						<select style="position:relative;left:-2px;top:-2px;font-size:12px;width:183px;line-height:14px;bo rder:0px;color:#909993;padding:8px;"  name="executor" required>
-						<%for(int i=0;i<addTaskVO.getUsers().size();i++){ %>		
-								<option value="<%=addTaskVO.getUsers().get(i).getUserCode()%>"><%=addTaskVO.getUsers().get(i).getUserCode()%>_<%=addTaskVO.getUsers().get(i).getUserName()%> </option>
-						<%} %>
-							</select>
-						<!-- <div class='message' id='executorDiv'>required.</div> -->
+						<select
+							style="position: relative; left: -2px; top: -2px; font-size: 12px; width: 183px; line-height: 14px; bo rder: 0px; color: #909993; padding: 8px;"
+							name="executor">
+							<%
+								for (int i = 0; i < editTaskVO.getUsers().size(); i++) {
+							%>
+							<option value="<%=editTaskVO.getUsers().get(i).getUserCode()%>"><%=editTaskVO.getUsers().get(i).getUserCode()%>_<%=editTaskVO.getUsers().get(i).getUserName()%>
+							</option>
+							<%
+								}
+							%>
+						</select>
 					</div>
-					<div id='executor' class='outerDiv'>
+						<div id='executor' class='outerDiv'>
 						<label for="executor">任务类型:</label>
 						<!-- 	<input type="text" name="executor" required />  -->
 						<select style="position:relative;left:-2px;top:-2px;font-size:12px;width:183px;line-height:14px;bo rder:0px;color:#909993;padding:8px;"  name="type" required>
-						<%for(int i=0;i<addTaskVO.getTypelist().size();i++){ %>		
-								<option value="<%=addTaskVO.getTypelist().get(i).getCode()%>"><%=addTaskVO.getTypelist().get(i).getName()%> </option>
+						<%for(int i=0;i<editTaskVO.getTypelist().size();i++){ %>		
+								<option value="<%=editTaskVO.getTypelist().get(i).getCode()%>"><%=editTaskVO.getTypelist().get(i).getName()%> </option>
+						<%} %>
+							</select>
+					</div>
+					<div class='clearfix'></div>
+					<div id='executor' class='outerDiv'>
+						<label for="executor">任务状态:</label>
+						<!-- 	<input type="text" name="executor" required />  -->
+						<select style="position:relative;left:-2px;top:-2px;font-size:12px;width:183px;line-height:14px;bo rder:0px;color:#909993;padding:8px;"  name="executestatus" required>
+						<%for(int i=0;i<editTaskVO.getTaskStatusList().size();i++){ %>		
+								<option value="<%=editTaskVO.getTaskStatusList().get(i).getCode()%>"><%=editTaskVO.getTaskStatusList().get(i).getName()%> </option>
 						<%} %>
 							</select>
 					</div>
 					<div class='clearfix'></div>
 					<div id='executendtime' class='outerDiv'>
-						<label for="enddate">任务到期日:</label> <input type="text" id="enddate"
-							name="executendtime" required />
-						<div class='message' id='executendtimeDiv'>We'll send you a
-							confirmation.</div>
-
+						<label for="enddate">任务到期日:</label> <input type="text"
+							name="executendtime" id="enddate" value="<%=editTaskVO.getTask().getExecutendtime() %>" />
 					</div>
+					<div class='clearfix'></div>
 					<div class='clearfix'></div>
 					<div id='submit' class='outerDiv'>
-						<input type="submit" value="Create the task" />
+						<input type="submit" value="edit the task" />
 					</div>
-					<div class='clearfix'></div>
 				</form>
 				<div class="clearfix"></div>
 			</div>

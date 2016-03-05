@@ -30,14 +30,32 @@
 		<servlet-name>EdiTTasksServlet</servlet-name>
 		<url-pattern>/edittasks</url-pattern>
 	</servlet-mapping>
-		<servlet>
+    <servlet>
 		<display-name>DetailTaskServlet</display-name>
 		<servlet-name>DetailTaskServlet</servlet-name>
 		<servlet-class>taskweb.servlet.DetailTaskServlet</servlet-class>
 	</servlet>
-		<servlet-mapping>
+	<servlet-mapping>
 		<servlet-name>DetailTaskServlet</servlet-name>
 		<url-pattern>/detailtask</url-pattern>
+	</servlet-mapping>
+	    <servlet>
+		<display-name>EditTaskServlet</display-name>
+		<servlet-name>EditTaskServlet</servlet-name>
+		<servlet-class>taskweb.servlet.EditTaskServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>EditTaskServlet</servlet-name>
+		<url-pattern>/edittask</url-pattern>
+	</servlet-mapping>
+	    <servlet>
+		<display-name>ModifyTaskServlet</display-name>
+		<servlet-name>ModifyTaskServlet</servlet-name>
+		<servlet-class>taskweb.servlet.ModifyTaskServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ModifyTaskServlet</servlet-name>
+		<url-pattern>/modifytask</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<display-name>LoginServlet</display-name>
