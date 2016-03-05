@@ -1,12 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="model.TasksVO"%>
+<%@page import="model.TaskVO"%>
 <%@page import="java.util.List"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Show Tasks</title>
+<script src="script/js/jquery.js"></script>
 <style type="text/css">
 body {
 	width: 1000px;
@@ -97,11 +99,86 @@ table {
 	-webkit-border-radius: 0 0 6px 0;
 	border-radius: 0 0 6px 0;
 }
+
+.ui-page {
+  height: 60px;
+  margin: 10px 0 20px;
+  color: #999;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: \5B8B\4F53,Helvetica,sans-serif;
+  text-align: center;
+}
+
+.ui-page a, .ui-page b {
+  float: left;
+}
+.ui-page b {
+  font-weight: 400;
+}
+.ui-page-num {
+  padding-top: 19px;
+  background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEYAAAAUCAMAAAAHtrtKAAACTFBM…JVAx1fngUOJHJuUuAY4ZkjOMheVNMBmpGMzYOaDBsmH9VUGlSdguSxQAAAABJRU5ErkJggg==") no-repeat right 0;
+}
+
+.ui-page-wrap {
+  display: inline-block;
+  zoom: 1;
+}
+
+
+DIV.quotes {
+  PADDING-RIGHT: 3px;
+  PADDING-LEFT: 3px;
+  PADDING-BOTTOM: 3px;
+  MARGIN: 3px;
+  PADDING-TOP: 3px;
+  TEXT-ALIGN: center;
+}
+DIV.quotes SPAN.disabled {
+  BORDER-RIGHT: #f3f3f3 1px solid;
+  PADDING-RIGHT: 5px;
+  BORDER-TOP: #f3f3f3 1px solid;
+  PADDING-LEFT: 5px;
+  PADDING-BOTTOM: 2px;
+  BORDER-LEFT: #f3f3f3 1px solid;
+  COLOR: #ccc;
+  MARGIN-RIGHT: 2px;
+  PADDING-TOP: 2px;
+  BORDER-BOTTOM: #f3f3f3 1px solid;
+}
+DIV.quotes SPAN.current {
+  BORDER-RIGHT: #e0e0e0 1px solid;
+  PADDING-RIGHT: 5px;
+  BORDER-TOP: #e0e0e0 1px solid;
+  PADDING-LEFT: 5px;
+  FONT-WEIGHT: bold;
+  PADDING-BOTTOM: 2px;
+  BORDER-LEFT: #e0e0e0 1px solid;
+  COLOR: #aaa;
+  MARGIN-RIGHT: 2px;
+  PADDING-TOP: 2px;
+  BORDER-BOTTOM: #e0e0e0 1px solid;
+  BACKGROUND-COLOR: #f0f0f0;
+}
+DIV.quotes A {
+  BORDER-RIGHT: #ddd 1px solid;
+  PADDING-RIGHT: 5px;
+  BORDER-TOP: #ddd 1px solid;
+  PADDING-LEFT: 5px;
+  PADDING-BOTTOM: 2px;
+  BORDER-LEFT: #ddd 1px solid;
+  COLOR: #aaa;
+  MARGIN-RIGHT: 2px;
+  PADDING-TOP: 2px;
+  BORDER-BOTTOM: #ddd 1px solid;
+  TEXT-DECORATION: none;
+}
 </style>
 </head>
 <body>
 	<%
-		List<TasksVO> tasksVOs = (List<TasksVO>) request.getAttribute("tasksVOs");
+		TasksVO tasksVO = (TasksVO) request.getAttribute("tasksVO");
 	%>
 	<table class="bordered">
 		<thead>
@@ -112,13 +189,15 @@ table {
 				<th width="8%">执行者</th>
 				<th width="10%">提交时间</th>
 				<th width="10%">截止日期</th>
+				<th width="5%">类型</th>
 				<th width="5%">状态</th>
 				<th width="7%">操作</th>
 			</tr>
 		</thead>
 
 		<%
-		    TasksVO taskVO=new TasksVO();
+		    TaskVO taskVO=new TaskVO();
+		   List<TaskVO> tasksVOs =tasksVO.getTaskList();
 			for (int i = 0; i < tasksVOs.size(); i++) {
 				taskVO=tasksVOs.get(i);
 		%>
@@ -130,6 +209,7 @@ table {
 			<td><%=taskVO.getUser().getUserName()%></td>
 			<td><%=taskVO.getTask().getStarttime()%></td>
 			<td><%=taskVO.getTask().getExecutendtime()%></td>
+			<td><%=taskVO.getTask().getType()%></td>
 			<td><%=taskVO.getTask().getExecutestatus()%></td>
 			<td><a href="detailtask?id=<%=taskVO.getTask().getId()%>">查看</a></td>
 		</tr>
@@ -138,9 +218,15 @@ table {
 		%>
 
 	</table>
-
+<div class="quotes">  <%=tasksVO.getPageFooter() %> <input id="topage"  type="text" />页 <a onclick="page_jump()" href="javascript:;">确定</a></div>
 	<br>
 	<br>
-
+<script>
+function page_jump(){
+	if($("#topage").val()!=""){
+		window.location.href=window.location.pathname+"?"+"p="+$("#topage").val();
+	}
+}
+</script>
 </body>
 </html>
