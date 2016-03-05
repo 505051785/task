@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="model.TasksVO"%>
+<%@page import="model.TaskVO"%>
 <%@page import="java.util.List"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -101,7 +102,7 @@ table {
 </head>
 <body>
 	<%
-		List<TasksVO> tasksVOs = (List<TasksVO>) request.getAttribute("tasksVOs");
+	TasksVO tasksVO = (TasksVO) request.getAttribute("tasksVO");
 	%>
 	<a  href="detailtask" >新增</a>
 	<table class="bordered">
@@ -109,16 +110,19 @@ table {
 			<tr>
 				<th width="5%">编号</th>
 				<th width="20%">任务标题</th>
-				<th width="40%">任务描述</th>
+				<th width="35%">任务描述</th>
 				<th width="8%">执行者</th>
 				<th width="10%">提交时间</th>
 				<th width="10%">截止日期</th>
+				<th width="5%">类型</th>
+				<th width="5%">状态</th>
 				<th width="7%">操作</th>
 			</tr>
 		</thead>
 
-		<%
-		    TasksVO taskVO=new TasksVO();
+<%
+		    TaskVO taskVO=new TaskVO();
+		   List<TaskVO> tasksVOs =tasksVO.getTaskList();
 			for (int i = 0; i < tasksVOs.size(); i++) {
 				taskVO=tasksVOs.get(i);
 		%>
@@ -130,7 +134,9 @@ table {
 			<td><%=taskVO.getUser().getUserName()%></td>
 			<td><%=taskVO.getTask().getStarttime()%></td>
 			<td><%=taskVO.getTask().getExecutendtime()%></td>
-			<td><a href="detailtask?id=<%=taskVO.getTask().getId()%>">编辑</a></td>
+			<td><%=taskVO.getTask().getType()%></td>
+			<td><%=taskVO.getTask().getExecutestatus()%></td>
+			<td><a href="edittask?id=<%=taskVO.getTask().getId()%>">查看</a></td>
 		</tr>
 		<%
 			}
